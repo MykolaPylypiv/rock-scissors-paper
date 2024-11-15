@@ -5,14 +5,60 @@ const resultDiv = document.getElementById('result');
 let playerScore = 0;
 let botScore = 0;
 
-function startGame() {
-    // Сховати стартовий екран
-    document.querySelector('.start-screen').style.display = 'none';
+function generateStars() {
+    const starsContainer = document.querySelector('.stars');
+    const numStars = 200; // Кількість зірок
 
-    // Показати основний екран гри
-    document.querySelector('.container').style.display = 'flex';
-    toggleRules()
+    for (let i = 0; i < numStars; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+
+        // Рандомізуємо позицію зірки на екрані
+        const size = Math.random() * 2 + 1; // Розмір зірки (від 1 до 3px)
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+
+        // Рандомізуємо швидкість анімації
+        const delay = Math.random() * 5; // Затримка анімації для кожної зірки
+        const duration = Math.random() * 3 + 2; // Тривалість анімації
+
+        // Встановлюємо стилі для кожної зірки
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.animationDuration = `${duration}s`;
+        star.style.animationDelay = `${delay}s`;
+
+        starsContainer.appendChild(star);
+    }
 }
+
+// Викликаємо функцію для генерації зірок
+generateStars();
+
+function startGame() {
+    const startScreen = document.querySelector('.start-screen');
+    const container = document.querySelector('.container');
+    const backgroundMusic = document.getElementById('background-music');
+
+    // Додаємо клас анімації для затемнення початкового екрану
+    startScreen.classList.add('fade-out');
+
+    // Починаємо відтворювати фонову музику
+    backgroundMusic.currentTime = 0;
+    backgroundMusic.play();
+
+    // Після завершення анімації (800ms) показуємо екран гри
+    setTimeout(() => {
+        startScreen.style.display = 'none'; // Сховати стартовий екран
+        container.style.display = 'flex'; // Показати екран гри
+        container.classList.add('slide-up'); // Додаємо анімацію появи знизу
+        toggleRules(); // Додатковий функціонал (правила)
+    }, 0); // Час відповідає тривалості анімації fadeOut
+}
+
+
 
 function updateScore() {
     // Оновлюємо рахунок на екрані
@@ -38,10 +84,68 @@ function playGame(playerChoice) {
         botScore++; // Збільшуємо рахунок бота
     }
 
+    startAnimation(playerChoice, botChoice, result);
     showResult(playerChoice, botChoice, result);
     addToTable(playerChoice, botChoice, result);
     updateScore(); // Оновлюємо рахунок після кожної гри
 }
+
+function startAnimation(playerChoice, botChoice, result) {
+    const playerImg = document.getElementById('player-choice-img');
+    const botImg = document.getElementById('bot-choice-img');
+    const vsText = document.querySelector('.vs-text');
+    const winnerText = document.getElementById('winner-text');
+    const animationContainer = document.querySelector('.animation-container');
+    const music = document.getElementById('animation-music');
+    const backgroundMusic = document.getElementById('background-music');
+
+    backgroundMusic.pause();
+
+    // Оновлення зображень
+    playerImg.src = `images/${selectImage(playerChoice)}.png`;
+    botImg.src = `images/${selectImage(botChoice)}.png`;
+
+    // Відтворення музики
+    music.currentTime = 0; // Почати спочатку
+    music.play();
+
+    // Показуємо анімаційний екран
+    animationContainer.style.display = 'flex';
+
+    // Початок анімації
+    setTimeout(() => {
+        vsText.style.opacity = 1; // Показуємо текст VS
+        document.querySelector('.player-choice').style.transform = 'translateX(200px) scale(1.5)'; // Збільшуємо іконки
+        document.querySelector('.bot-choice').style.transform = 'translateX(-200px) scale(1.5)';
+    }, 100);
+
+    // Відображення результату через 2 секунди
+    setTimeout(() => {
+        vsText.style.opacity = 0; // Приховуємо текст VS
+        winnerText.textContent = result; // Встановлюємо текст результату
+        winnerText.style.display = 'block';
+
+        // Завершення анімації
+        setTimeout(() => {
+            animationContainer.style.display = 'none'; // Приховуємо анімаційний екран
+            winnerText.style.display = 'none'; // Приховуємо результат
+            document.querySelector('.player-choice').style.transform = 'translateX(0) scale(1)'; // Скидаємо іконки
+            document.querySelector('.bot-choice').style.transform = 'translateX(0) scale(1)';
+            music.pause(); // Зупиняємо музику
+            backgroundMusic.play();
+        }, 1000);
+    }, 2000);
+}
+
+function selectImage(playerChoice) {
+    if (playerChoice === 'камінь') {
+        return 'rock';
+    } else if (playerChoice === 'папір') {
+        return 'paper';
+    } else {
+        return 'scissors';
+    }
+} 
 
 function showResult(playerChoice, botChoice, result) {
     resultDiv.textContent = `Ви вибрали ${playerChoice}. Бот вибрав ${botChoice}. ${result}!`;
@@ -60,6 +164,8 @@ function addToTable(playerChoice, botChoice, result) {
         rowClass = 'bg-success';  // Зелений для виграшу
     } else if (result === 'Програш') {
         rowClass = 'bg-danger';  // Червоний для поразки
+    } else {
+        rowClass = 'bg-secondary'; 
     }
 
     // Вставка результату в таблицю

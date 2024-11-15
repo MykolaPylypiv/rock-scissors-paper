@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="stars"></div> <!-- Динамічний фон зоряного неба -->
+
     <div class="start-screen justify-content-center align-items-center">
         <div class="start-container text-center">
             <h1 class="display-4 text-white">Камінь, Ножиці, Папір</h1>
@@ -92,6 +94,35 @@
     <!-- Кнопка для відкриття вкладки з правилами -->
     <button id="open-rules" class="btn btn-info open-rules" onclick="toggleRules()">Правила гри</button>
 
+    <!-- Анімація -->
+    <div class="animation-container">
+        <div class="player-choice">
+            <img src="" alt="Вибір гравця" id="player-choice-img">
+        </div>
+        <div class="vs-text">VS</div>
+        <div class="bot-choice">
+            <img src="" alt="Вибір бота" id="bot-choice-img">
+        </div>
+        <div class="result-text" id="winner-text"></div>
+    </div>
+
+    <audio id="animation-music" src="audio/battle.mp3" preload="auto"></audio>
+    <audio id="background-music" src="audio/background-music.mp3" preload="auto" loop></audio>
+
+    <section class="video-section">
+        <h2>Турнір з "Камінь, Ножиці, Папір"</h2>
+        <iframe class="tournament-video" 
+            src="https://www.youtube.com/embed/pFaExcs_MgQ?si=BIj0Y51XNsb7qlg8" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+    </section>
+
+
+    <footer class="footer">
+        <p>&copy; 2024 Пилипів Микола. Усі права захищені.</p>
+    </footer>
 
     <!-- Підключення JS для Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
