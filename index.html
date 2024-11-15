@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Камінь, Ножиці, Папір</title>
+
+     <!-- Підключення фавіконки -->
+    <link rel="icon" href="images/favicon.png" type="image/png"> <!-- Замість "images/favicon.png" вкажіть шлях до вашого зображення -->
+    
+    <!-- Підключення Bootstrap через CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="start-screen justify-content-center align-items-center">
+        <div class="start-container text-center">
+            <h1 class="display-4 text-white">Камінь, Ножиці, Папір</h1>
+            <button class="btn btn-primary btn-lg mt-4" onclick="startGame()">Почати гру</button>
+        </div>
+
+        <div class="start-images">
+            <img src="images/rock-start.png" alt="Зображення 1" class="start-image top-left">
+            <img src="images/scissors-start.png" alt="Зображення 2" class="start-image top-right">
+            <img src="images/paper-start.png" alt="Зображення 3" class="start-image bottom-center">
+        </div>
+    </div>
+
+    <div class="container flex-column justify-content-center align-items-center min-vh-100" style="display: none;">
+
+        <div class="game-container text-center p-4 rounded shadow-sm">
+            <div id="score" class="mb-4">
+                <p>Гравець: <span id="player-score">0</span> | Бот: <span id="bot-score">0</span></p>
+            </div>
+
+            <h1 class="mb-4">Гра: Камінь, Ножиці, Папір</h1>
+            <div class="choices d-flex justify-content-center mb-4">
+                <div class="choice rock mx-2" onclick="playGame('камінь')">
+                    <img src="images/rock.png" alt="Камінь" class="img-fluid">
+                    <button class="btn btn-danger">Камінь</button>
+                </div>
+                <div class="choice scissors mx-2" onclick="playGame('ножиці')">
+                    <img src="images/scissors.png" alt="Ножиці" class="img-fluid">
+                    <button class="btn btn-primary">Ножиці</button>
+                </div>
+                <div class="choice paper mx-2" onclick="playGame('папір')">
+                    <img src="images/paper.png" alt="Папір" class="img-fluid">
+                    <button class="btn btn-success">Папір</button>
+                </div>
+            </div>
+            <div id="result" class="mt-3"></div>
+        </div>
+
+        <!-- Таблиця результатів -->
+        <div class="results-table-container position-absolute top-50 right-0 transform translate-middle-y">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Гравець</th>
+                        <th>Бот</th>
+                        <th>Результат</th>
+                    </tr>
+                </thead>
+                <tbody id="results-table"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Вкладка з правилами гри (спочатку прихована) -->
+    <div id="rules-tab" class="rules-tab">
+        <button id="close-rules" class="btn btn-danger" onclick="toggleRules()">Закрити</button>
+        <h3 style="padding-top: 14%">Правила гри</h3>
+        <p>Це класична гра "Камінь, Ножиці, Папір". Гравець вибирає один з варіантів, а комп'ютер вибирає свій варіант. Правила:</p>
+        <ul>
+            <li>Камінь б'є Ножиці.</li>
+            <li>Ножиці б'ють Папір.</li>
+            <li>Папір б'є Камінь.</li>
+        </ul>
+
+        <h3 style="padding-top: 14%">Цікава інформація</h3>
+        <h4>Камінь</h4>
+        <p>Камінь визнана на міжнародному рівні за стиснутим кулаком, де великий палець не прихований. Це також один із найпопулярніших початкових ходів, і тому він вважається одним із найпопулярніших жестів рукою.</p>
+        
+        <h4>Папір</h4>
+        <p>Папір подається так само, як камінь, за винятком того, що в цьому випадку всі пальці та великий палець витягнуті таким чином, що всі вони дивляться в одному напрямку. Вертикальний папір або рукостискання суворо заборонені на турнірах з «Кам’яних ножиць», оскільки вони можуть нагадувати ножиці, що може призвести до непотрібної плутанини.</p>      
+        
+        <h4>Ножиці</h4>
+        <p>Ножиці кидають так само, як камінь, де руку стискають у кулак, але вказівний і середній пальці витягують вперед, щоб утворити кут від 30 до 45 градусів у спосіб, який нагадує пару ножиць. На турнірах суворо заборонено використовувати горизонтальні ножиці, оскільки вони можуть нагадувати форму паперу.</p>
+
+    </div>
+
+    <!-- Кнопка для відкриття вкладки з правилами -->
+    <button id="open-rules" class="btn btn-info open-rules" onclick="toggleRules()">Правила гри</button>
+
+
+    <!-- Підключення JS для Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
